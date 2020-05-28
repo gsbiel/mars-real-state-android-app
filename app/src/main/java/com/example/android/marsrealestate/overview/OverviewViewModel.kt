@@ -37,9 +37,9 @@ class OverviewViewModel : ViewModel() {
     val status: LiveData<String>
         get() = _status
 
-    private val _property = MutableLiveData<MarsProperty>()
-    val property: LiveData<MarsProperty>
-        get() = _property
+    private val _properties = MutableLiveData<List<MarsProperty>>()
+    val properties: LiveData<List<MarsProperty>>
+        get() = _properties
 
     /**
      * Call getMarsRealEstateProperties() on init so we can display status immediately.
@@ -58,7 +58,7 @@ class OverviewViewModel : ViewModel() {
             }
             override fun onResponse(call: Call<List<MarsProperty>>, response: Response<List<MarsProperty>>) {
                 if (response.body()?.size!! > 0) {
-                    _property.postValue(response.body()?.get(0))
+                    _properties.postValue(response.body())
                 }
             }
         })
