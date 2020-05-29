@@ -26,10 +26,16 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+enum class MarsApiStatus { LOADING, ERROR, DONE }
+
 class OverviewViewModel : ViewModel() {
 
-    private val _status = MutableLiveData<String>()
-    val status: LiveData<String>
+//    private val _status = MutableLiveData<String>()
+//    val status: LiveData<String>
+//        get() = _status
+
+    private val _status = MutableLiveData<MarsApiStatus>()
+    val status: LiveData<MarsApiStatus>
         get() = _status
 
     private val _properties = MutableLiveData<List<MarsProperty>>()
@@ -41,12 +47,14 @@ class OverviewViewModel : ViewModel() {
     }
 
     private fun getMarsRealEstateProperties() {
+        _status.postValue(MarsApiStatus.LOADING)
         MarsApi.retrofitService.getProperties().enqueue( object: Callback<List<MarsProperty>> {
             override fun onFailure(call: Call<List<MarsProperty>>, t: Throwable) {
-                _status.value = "Failure: " + t.message
+                _status.postValue(MarsApiStatus.ERROR)
             }
             override fun onResponse(call: Call<List<MarsProperty>>, response: Response<List<MarsProperty>>) {
                 if (response.body()?.size!! > 0) {
+                    _status.postValue(MarsApiStatus.DONE)
                     _properties.postValue(response.body())
                 }
             }
