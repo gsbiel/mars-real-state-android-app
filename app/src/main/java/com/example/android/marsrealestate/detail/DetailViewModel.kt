@@ -19,7 +19,6 @@ package com.example.android.marsrealestate.detail
 import android.app.Application
 import androidx.lifecycle.*
 import com.example.android.marsrealestate.R
-import com.example.android.marsrealestate.detail.DetailFragment
 import com.example.android.marsrealestate.network.MarsProperty
 
 /**
@@ -51,7 +50,5 @@ class DetailViewModel(marsProperty: MarsProperty, app: Application) : AndroidVie
     init {
         _selectedProperty.value = marsProperty
     }
-
-
 
 }
