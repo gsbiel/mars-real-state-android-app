@@ -30,12 +30,23 @@ import com.example.android.marsrealestate.network.MarsProperty
 class DetailViewModel(marsProperty: MarsProperty, app: Application) : AndroidViewModel(app) {
 
     private val _selectedProperty = MutableLiveData<MarsProperty>()
-
     val selectedProperty: LiveData<MarsProperty>
         get() = _selectedProperty
 
+    private val _navigateToSelectedProperty = MutableLiveData<MarsProperty>()
+    val navigateToSelectedProperty: LiveData<MarsProperty>
+        get() = _navigateToSelectedProperty
+
     init {
         _selectedProperty.value = marsProperty
+    }
+
+    fun displayPropertyDetails(marsProperty: MarsProperty) {
+        _navigateToSelectedProperty.value = marsProperty
+    }
+
+    fun displayPropertyDetailsComplete() {
+        _navigateToSelectedProperty.value = null
     }
 
 }
